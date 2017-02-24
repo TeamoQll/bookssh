@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+	<!-- 列表页 -->
+		<action name="topage" class="infoAction" method="getInfoList">
+			<result name="success">/index.jsp</result>
+		</action>
+		
+	<!-- 查看页 -->
+		<action name="toview" class="infoAction" method="findBookById">
+			<result name="success">/book.jsp</result>
+		</action>
+		
+	<!-- 删除 -->
+		<action name="todel" class="infoAction" method="delBook">
+			<result name="success" type="redirectAction">topage</result>
+		</action>
+		
+	<!-- 添加页 --> 
+		<action name="toadd2" class="infoAction" method="findType">
+			<result name="success">/addBook.jsp</result>
+		</action>
+		<action name="toadd" class="infoAction" method="addBook">
+			<result name="success" type="redirectAction">topage</result>
+		</action>
+		
+	<!-- 修改 -->
+		<action name="toupdate" class="infoAction" method="findBookById">
+			<result name="success">/update.jsp</result>
+		</action>
+		<action name="update" class="infoAction" method="updateBook">
+			<result name="success" type="redirectAction">topage</result>
+		</action>
+	</package>
+</struts>    

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver">
+		</property>
+		<property name="url"
+			value="jdbc:oracle:thin:@127.0.0.1:1521/orcl">
+		</property>
+		<property name="username" value="manage"></property>
+		<property name="password" value="manage"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.Oracle9Dialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/pojo/BookInfo.hbm.xml</value>
+				<value>com/pojo/BookType.hbm.xml</value></list>
+		</property></bean>
+		
+	<bean id="infoDao" class="com.dao.impl.BookInfoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
+	<bean id="infoService" class="com.service.impl.BookInfoServiceImpl">
+		<property name="infoDao" ref="infoDao"/>
+	</bean>
+	<bean id="infoAction" class="com.action.BookInfoAction" scope="prototype">
+		<property name="infoService" ref="infoService"/>
+		<property name="typeService" ref="typeService"/>
+	</bean>
+		
+	<bean id="typeDao" class="com.dao.impl.BookTypeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="typeService" class="com.service.impl.BookTypeService">
+		<property name="typeDao" ref="typeDao"/>
+	</bean>
+	<bean id="typeAction" class="com.action.BookTypeAction" scope="prototype">
+		<property name="typeService" ref="typeService"/>
+	</bean>
+</beans>
